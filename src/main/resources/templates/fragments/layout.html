@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/dist/upvotejs/upvotejs.css}"/>
+
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Index</title>
+</head>
+<body>
+    <th:block th:replace="fragments/header :: header"/>
+
+        <th:block layout:fragment="content"/>
+
+    <th:block th:replace="fragments/footer :: footer"/>
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+    <script type="text/javascript" th:src="@{/dist/upvotejs/upvotejs.vanilla.js}"></script>
+    <script type="text/javascript" th:src="@{/dist/upvotejs/upvotejs.jquery.js}"></script>
+
+</body>
+</html>

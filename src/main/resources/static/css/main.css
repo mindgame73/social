@@ -1,0 +1,21 @@
+body{
+    font-size: 14pt;
+    font-family: sans-serif;
+}
+
+
+.nav-link{
+    font-size: 3rem;
+}
+
+.container-fluid{
+    margin-top: 40px;
+}
+
+
+li.media.my-4{
+    background: #3e4943;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}

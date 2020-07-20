@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+
+<head>
+    <title>Login</title>
+</head>
+<body>
+<div layout:fragment="content" th:remove="tag">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-3">
+                <h1>Sign up</h1>
+                <form action="/registration" th:object="${user}" method="POST" enctype="utf8">
+                    <div th:if="${userExistMessage}">
+                        <div class="alert alert-danger">
+                            <div th:text="${userExistMessage}"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Enter login</label>:
+                        <input th:field="*{login}"  type="text" id="username" class="form-control"
+                                 placeholder="Login"/>
+            </div>
+                    <p style="font-size:14px; color:red"  th:each="error : ${#fields.errors('login')}" th:text="${error}"></p>
+                    <div class="form-group">
+                        <label for="password">Enter password</label>:
+                        <input th:field="*{password}" type="password"
+                               id="password"
+                               name="password"
+                               class="form-control"
+                               placeholder="Enter password">
+                    </div>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                    <p style="font-size:14px; color:red" th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
+                    <div class="form-group">
+                        <label for="password-confirm">Password confirmation</label>:
+                        <input th:field="*{matchingPassword}" type="password"
+                               id="password-confirm"
+                               name="password-confirm"
+                               class="form-control"
+                               placeholder="Confirm password">
+                    </div>
+                    <p style="font-size:14px; color:red" th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}"></p>
+                    <p style="font-size:14px; color:red" th:text="${passMatch}"></p>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <button class="form-control btn btn-info" type="submit">Sign up</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

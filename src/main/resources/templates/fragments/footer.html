@@ -1,0 +1,11 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+<th:block th:fragment="footer">
+    <footer>
+        Developed special for Kameleoon. <span sec:authorize="isAuthenticated()">Logged </span>
+    </footer>
+</th:block>
+</body>
+</html>
