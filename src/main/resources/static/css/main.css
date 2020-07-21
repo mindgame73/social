@@ -46,3 +46,11 @@ div.upvotejs a.upvote:hover{
     background-position: -40px -170px;
 }
 
+i.fa.fa-trash{
+    float:right;
+}
+
+i.far.fa-edit {
+    float: right;
+    margin-right: 10px;
+}

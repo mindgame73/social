@@ -86,7 +86,7 @@
                             <a class="upvote"></a>
                             <a class="downvote"></a>
                         </div>
-                        <div class="media-body">
+                        <div th:id="${element.key.getPostId()}" class="media-body">
                                 <span th:text="${element.key.getTitle()}"class="mt-0 mb-1 post-title"></span>
                             <th:block th:if="${element.value>0}">
                                 <span th:text="${element.key.getScore()}" class="badge badge-success"></span>
@@ -96,6 +96,10 @@
                             </th:block>
                             <th:block th:if="${element.value<0}">
                                 <span th:text="${element.key.getScore()}" class="badge badge-danger"></span>
+                            </th:block>
+                            <th:block th:if="${element.key.getAuthor().getUsername() == username }">
+                                <i class="fa fa-trash ajax-post-delete" aria-hidden="true"></i>
+                                <i class="far fa-edit ajax-post-edit"></i>
                             </th:block>
                             <h5 style="white-space: pre-wrap;" th:text="${element.key.getContent()}"></h5>
                             <br><h5 style="text-align:right">Posted by: <span th:text="${element.key.getAuthor().getUsername()}"></span></h5>
@@ -119,34 +123,6 @@
                 </div>
             </div>
             </span>
-        </div>
-    </div>
-    <div class="modal fade" id="create-modal-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">New post</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="add-post">
-                        <div class="form-group">
-                            <label for="c_title" class="col-form-label">Title:</label>
-                            <input type="text" class="form-control" id="c_title">
-                        </div>
-                        <div class="form-group">
-                            <label for="c_content" class="col-form-label">Message:</label>
-                            <textarea class="form-control" id="c_content"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="button" id="btn-create-post" class="btn btn-primary">Добавить</button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

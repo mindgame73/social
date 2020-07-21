@@ -6,16 +6,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item" th:classappend="${#request.getRequestURI() == '/index' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/index}"><i class="fas fa-home fa-2x"></i>Profile</a>
+                    <a class="nav-link" th:href="@{/index}">Profile</a>
                 </li>
                 <li class="nav-item" th:classappend="${#request.getRequestURI() == '/top' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/top}"><i class="fas fa-book fa-2x"></i>Top 10</a>
+                    <a class="nav-link" th:href="@{/top}">Top 10</a>
                 </li>
                 <li class="nav-item" th:classappend="${#request.getRequestURI() == '/flop' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/flop}"><i class="fas fa-phone fa-2x"></i>Flop 10</a>
+                    <a class="nav-link" th:href="@{/flop}">Flop 10</a>
                 </li>
                 <li class="nav-item" th:classappend="${#request.getRequestURI() == '/last' ? 'active' : ''}">
-                    <a class="nav-link" th:href="@{/last}"><i class="fas fa-project-diagram fa-2x"></i>Last</a>
+                    <a class="nav-link" th:href="@{/last}">Last</a>
                 </li>
             </ul>
         </div>

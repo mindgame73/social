@@ -37,6 +37,9 @@ public class IndexController {
         List<Post> postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
         model.addAttribute("posts", postList);
 
+        if (principal != null)
+            model.addAttribute("username", principal.getName());
+
         //random one
         Post post = postList.get(new Random().nextInt(postList.size()));
         model.addAttribute("randPost", post);
@@ -50,7 +53,8 @@ public class IndexController {
 
         @GetMapping({"/top", "/flop"})
         public String getTop10(Model model, Principal principal, HttpServletRequest request){
-
+            if (principal != null)
+                model.addAttribute("username", principal.getName());
             //random
             List<Post> postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
             Post post = postList.get(new Random().nextInt(postList.size()));

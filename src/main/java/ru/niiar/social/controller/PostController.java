@@ -56,4 +56,17 @@ public class PostController {
         }
         return null;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public Post getEditPost(@RequestParam Integer id){
+        Post post = postRepository.findById(id).get();
+        return post;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/edit", method = RequestMethod.POST)
+    public Post updatePost(@RequestBody Post post){
+        return postRepository.save(post);
+    }
 }

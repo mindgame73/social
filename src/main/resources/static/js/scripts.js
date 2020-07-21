@@ -3,6 +3,23 @@ $(document).on('click','.ajax-post-create', function () {
     $('#create-modal-post').modal();
 });
 
+$(document).on('click','.ajax-post-edit', function () {
+    var id = $(this).parents('.media-body').attr('id');
+
+    $.ajax({
+        type: "GET",
+        url: "/post/edit",
+        data: "id=" + id,
+        success: function (post) {
+            $('.edit-post')[0].reset();
+            $('#e_post_id').val(post.post_id)
+            $('#e_title').val(post.title);
+            $('#e_content').val(post.content);
+        }
+    });
+    $('#edit-modal-post').modal();
+});
+
 $('#btn-create-post').click(function () {
     var data = {};
     data['title'] = $('#c_title').val();
@@ -18,6 +35,26 @@ $('#btn-create-post').click(function () {
         success: function (p) {
             $('#create-modal-post').modal('hide');
             window.location.href = "/index"
+        }
+    });
+});
+
+$('#btn-edit-post').click(function () {
+    var data = {};
+    data['post_id'] = $('#e_post_id').val();
+    data['title'] = $('#e_title').val();
+    data['content'] = $('#e_content').val();
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/post/edit",
+        data: JSON.stringify(data),
+        dataType: 'json',
+        timeout: 600000,
+        success: function (d) {
+            $('#edit-modal-div').modal('hide');
+            location.reload()
         }
     });
 
