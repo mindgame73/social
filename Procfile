@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* ru.niiar.social.Application
+web: java -jar target/social-1.0.jar
