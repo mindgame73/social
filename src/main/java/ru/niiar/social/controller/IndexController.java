@@ -13,14 +13,15 @@ import ru.niiar.social.repository.PostRepository;
 import ru.niiar.social.repository.UserRepository;
 import ru.niiar.social.repository.VoteRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
 @Controller
-@RequestMapping(path = {"", "index"})
+@RequestMapping(path = {"", "index", "last"})
 public class IndexController {
     @Autowired
     private PostRepository postRepository;
@@ -33,13 +34,12 @@ public class IndexController {
 
     @GetMapping("")
     public String getIndex(Model model, Principal principal){
-        List<Vote> most10popular = (List<Vote>) voteRepository.findAll();
-        Map<Post, Long> map = most10popular.stream()
-                .collect(Collectors.groupingBy(Vote::getPost,Collectors.summingLong(Vote::getScore)));
-
-
-        List<Post>  postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
+        List<Post> postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
         model.addAttribute("posts", postList);
+
+        //random one
+        Post post = postList.get(new Random().nextInt(postList.size()));
+        model.addAttribute("randPost", post);
 
         if (principal != null){
             User user = userRepository.findUserByUsername(principal.getName()).get();
@@ -47,4 +47,40 @@ public class IndexController {
             model.addAttribute("topvoted", voteList);
         }
         return "index";}
+
+        @GetMapping({"/top", "/flop"})
+        public String getTop10(Model model, Principal principal, HttpServletRequest request){
+
+            //random
+            List<Post> postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
+            Post post = postList.get(new Random().nextInt(postList.size()));
+            model.addAttribute("randPost", post);
+
+            List<Vote> allVotes = (List<Vote>) voteRepository.findAll();
+            Map<Post, Long> unorderedMap = allVotes.stream()
+                    .collect(Collectors.groupingBy(Vote::getPost, Collectors.summingLong(Vote::getScore)));
+
+            Map<Post, Long> ordered;
+            if (request.getRequestURL().toString().endsWith("/flop")){
+                 ordered = unorderedMap.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue())
+                        .limit(10)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a,b) -> a, LinkedHashMap::new));
+            }
+            else
+            {
+                 ordered = unorderedMap.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .limit(10)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a,b) -> a, LinkedHashMap::new));
+            }
+
+            model.addAttribute("posts", ordered);
+            if (principal != null){
+                User user = userRepository.findUserByUsername(principal.getName()).get();
+                List<Vote> voteList = voteRepository.findTop5ByVotedUserInOrderByVoteTimeDesc(user);
+                model.addAttribute("topvoted", voteList);
+            }
+        return "top";
+        }
 }

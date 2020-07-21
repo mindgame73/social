@@ -1,6 +1,7 @@
 package ru.niiar.social.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,8 +20,9 @@ public class Post {
     @Column
     private String title;
 
+    //CLOB for oracle
     @Lob
-    @Column(columnDefinition="CLOB")
+    @Column(name="cont",columnDefinition = "text")
     private String content;
 
     @JsonBackReference
@@ -31,12 +33,14 @@ public class Post {
     @Column(name="post_time")
     private Date postTime;
 
+    @JsonIgnore
     @Transient
-    private long score;
+    private long score = 0;
 
     public long getScore() {
-        return voteList.stream()
+        score =  voteList.stream()
                 .map(Vote::getScore).mapToInt(Integer::intValue).sum();
+        return score;
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
@@ -62,7 +66,8 @@ public class Post {
         return content;
     }
 
-    public Post(){}
+    public Post(){
+    }
 
     @Override
     public boolean equals(Object o) {

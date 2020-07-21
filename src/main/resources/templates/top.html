@@ -11,26 +11,26 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-            <div class="media my-4">
-                <div th:id="${randPost.getPostId()}" class="upvotejs">
-                    <a class="upvote"></a>
-                    <a class="downvote"></a>
+                <div class="media my-4">
+                    <div th:id="${randPost.getPostId()}" class="upvotejs">
+                        <a class="upvote"></a>
+                        <a class="downvote"></a>
+                    </div>
+                    <div class="media-body">
+                        <span th:text="${randPost.getTitle()}"class="mt-0 mb-1 post-title"></span>
+                        <th:block th:if="${randPost.getScore()>0}">
+                            <span th:text="${randPost.getScore()}" class="badge badge-success"></span>
+                        </th:block>
+                        <th:block th:if="${randPost.getScore() == 0}">
+                            <span th:text="${randPost.getScore()}" class="badge badge-secondary"></span>
+                        </th:block>
+                        <th:block th:if="${randPost.getScore()<0}">
+                            <span th:text="${randPost.getScore()}" class="badge badge-danger"></span>
+                        </th:block>
+                        <h5 style="white-space: pre-wrap;" th:text="${randPost.getContent()}"></h5>
+                        <br><h5 style="text-align:right">Posted by: <span th:text="${randPost.getAuthor().getUsername()}"></span></h5>
+                    </div>
                 </div>
-                <div class="media-body">
-                    <span th:text="${randPost.getTitle()}"class="mt-0 mb-1 post-title"></span>
-                    <th:block th:if="${randPost.getScore()>0}">
-                        <span th:text="${randPost.getScore()}" class="badge badge-success"></span>
-                    </th:block>
-                    <th:block th:if="${randPost.getScore() == 0}">
-                        <span th:text="${randPost.getScore()}" class="badge badge-secondary"></span>
-                    </th:block>
-                    <th:block th:if="${randPost.getScore()<0}">
-                        <span th:text="${randPost.getScore()}" class="badge badge-danger"></span>
-                    </th:block>
-                    <h5 style="white-space: pre-wrap;" th:text="${randPost.getContent()}"></h5>
-                    <br><h5 style="text-align:right">Posted by: <span th:text="${randPost.getAuthor().getUsername()}"></span></h5>
-                </div>
-            </div>
             </div>
             <div class="col-md-4 small-sized">
                 <span sec:authorize="isAuthenticated()">
@@ -80,25 +80,25 @@
         <div class="row">
             <div class="col-md-8">
                 <ul class="list-unstyled">
-                    <th:block th:each="post : ${posts}">
+                    <th:block th:each="element : ${posts}">
                     <li class="media my-4">
-                        <div th:id="${post.getPostId()}" class="upvotejs">
+                        <div th:id="${element.key.getPostId()}" class="upvotejs">
                             <a class="upvote"></a>
                             <a class="downvote"></a>
                         </div>
                         <div class="media-body">
-                                <span th:text="${post.getTitle()}"class="mt-0 mb-1 post-title"></span>
-                            <th:block th:if="${post.getScore()>0}">
-                                <span th:text="${post.getScore()}" class="badge badge-success"></span>
+                                <span th:text="${element.key.getTitle()}"class="mt-0 mb-1 post-title"></span>
+                            <th:block th:if="${element.value>0}">
+                                <span th:text="${element.key.getScore()}" class="badge badge-success"></span>
                             </th:block>
-                            <th:block th:if="${post.getScore() == 0}">
-                                <span th:text="${post.getScore()}" class="badge badge-secondary"></span>
+                            <th:block th:if="${element.value == 0}">
+                                <span th:text="${element.key.getScore()}" class="badge badge-secondary"></span>
                             </th:block>
-                            <th:block th:if="${post.getScore()<0}">
-                                <span th:text="${post.getScore()}" class="badge badge-danger"></span>
+                            <th:block th:if="${element.value<0}">
+                                <span th:text="${element.key.getScore()}" class="badge badge-danger"></span>
                             </th:block>
-                            <h5 style="white-space: pre-wrap;" th:text="${post.getContent()}"></h5>
-                            <br><h5 style="text-align:right">Posted by: <span th:text="${post.getAuthor().getUsername()}"></span></h5>
+                            <h5 style="white-space: pre-wrap;" th:text="${element.key.getContent()}"></h5>
+                            <br><h5 style="text-align:right">Posted by: <span th:text="${element.key.getAuthor().getUsername()}"></span></h5>
                         </div>
                     </li>
                     <hr>

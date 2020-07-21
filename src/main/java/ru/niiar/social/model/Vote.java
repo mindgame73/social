@@ -2,6 +2,7 @@ package ru.niiar.social.model;
 
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity(name="votes")
@@ -19,8 +20,8 @@ public class Vote {
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
     private User votedUser;
 
-    @Column(name="vote_time", columnDefinition = "Timestamp")
-    private String voteTime;
+    @Column(name="vote_time")
+    private Date voteTime;
 
     @Column(length = 1)
     private int score;
@@ -46,7 +47,7 @@ public class Vote {
 
     }
 
-    public Vote(Integer voteId, Post post, User votedUser, String voteTime, int score) {
+    public Vote(Integer voteId, Post post, User votedUser, Date voteTime, int score) {
         this.vote_id = voteId;
         this.post = post;
         this.votedUser = votedUser;
@@ -78,11 +79,11 @@ public class Vote {
         this.votedUser = votedUser;
     }
 
-    public String getVoteTime() {
+    public Date getVoteTime() {
         return voteTime;
     }
 
-    public void setVoteTime(String voteTime) {
+    public void setVoteTime(Date voteTime) {
         this.voteTime = voteTime;
     }
 
