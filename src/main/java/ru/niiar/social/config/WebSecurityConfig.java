@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.niiar.social.service.UserDetailsServiceImpl;
 
 import javax.sql.DataSource;
 
@@ -24,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -44,14 +45,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**", "/static/images/**", "/static/js/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/index")
+                .loginPage("/login")
+                .defaultSuccessUrl("/index")
                 .permitAll()
                 .and()
-                .logout()
+                .logout().deleteCookies("JSESSIONID")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/index?logout")
                 .permitAll();
 
+                http.authorizeRequests().and()
+                        .rememberMe().tokenRepository(this.persistentTokenRepository())
+                        .tokenValiditySeconds(24*60*60);
                 http.csrf().disable();
     }
 

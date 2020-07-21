@@ -27,14 +27,14 @@ public class UserService {
         else
         {
             User user = new User();
-            user.setLogin(userDto.getLogin());
+            user.setUsername(userDto.getLogin());
             user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
             return userRepository.save(user);
         }
     }
 
 
-    private boolean isUserExists(String login){
-        return userRepository.findUserByLogin(login).isPresent();
+    private boolean isUserExists(String username){
+        return userRepository.findUserByUsername(username).isPresent();
     }
 }

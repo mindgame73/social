@@ -1,9 +1,13 @@
 package ru.niiar.social.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity(name="posts")
 public class Post {
@@ -15,17 +19,27 @@ public class Post {
     @Column
     private String title;
 
-    @Column
+    @Lob
+    @Column(columnDefinition="CLOB")
     private String content;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
     private User author;
 
-    @Column(name="post_time", columnDefinition = "Timestamp")
-    private String postTime;
+    @Column(name="post_time")
+    private Date postTime;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    @Transient
+    private long score;
+
+    public long getScore() {
+        return voteList.stream()
+                .map(Vote::getScore).mapToInt(Integer::intValue).sum();
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Vote> voteList;
 
     public Integer getPostId() {
@@ -67,7 +81,7 @@ public class Post {
         return Objects.hash(post_id, title, content, author, postTime);
     }
 
-    public Post(Integer postId, String title, String content, User author, String postTime) {
+    public Post(Integer postId, String title, String content, User author, Date postTime) {
         this.post_id = postId;
         this.title = title;
         this.content = content;
@@ -87,11 +101,11 @@ public class Post {
         this.author = author;
     }
 
-    public String getPostTime() {
+    public Date getPostTime() {
         return postTime;
     }
 
-    public void setPostTime(String postTime) {
+    public void setPostTime(Date postTime) {
         this.postTime = postTime;
     }
 }

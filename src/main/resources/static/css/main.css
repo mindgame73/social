@@ -12,10 +12,37 @@ body{
     margin-top: 40px;
 }
 
+span.mt-0.mb-1.post-title{
+    font-size: 24px;
+    color: lightblue;
+}
+h5{
+    font-size: 18px;
+}
 
 li.media.my-4{
     background: #3e4943;
     color: #fff;
     padding: 10px;
     border-radius: 5px;
+    margin-top: 0px !important;
 }
+
+.container-fluid{
+    margin-left: 200px;
+}
+
+@media screen and (min-width: 768px)  {
+    .small-sized {
+        max-width: 17.2%;
+    }
+}
+
+div.upvotejs a.downvote:hover{
+    background-position: -40px -220px;
+}
+
+div.upvotejs a.upvote:hover{
+    background-position: -40px -170px;
+}
+

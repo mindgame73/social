@@ -5,12 +5,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import ru.niiar.social.model.User;
 import ru.niiar.social.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
 
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -18,9 +20,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = (User) userRepository.findUserByLogin(login)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + login + "not found"));
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), new HashSet<GrantedAuthority>());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = (User) userRepository.findUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + "not found"));
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+                new HashSet<GrantedAuthority>());
     }
 }
