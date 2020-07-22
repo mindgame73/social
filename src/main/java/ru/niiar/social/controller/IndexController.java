@@ -34,14 +34,13 @@ public class IndexController {
 
     @GetMapping("")
     public String getIndex(Model model, Principal principal){
-
         List<Post> postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
         model.addAttribute("posts", postList);
 
         if (principal != null)
             model.addAttribute("username", principal.getName());
 
-        //random one
+        //random one s
         Post post = postList.get(new Random().nextInt(postList.size()));
         model.addAttribute("randPost", post);
 
