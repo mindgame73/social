@@ -66,7 +66,10 @@ public class PostController {
 
     @ResponseBody
     @RequestMapping(value="/edit", method = RequestMethod.POST)
-    public Post updatePost(@RequestBody Post post){
+    public Post updatePost(@RequestBody Post current){
+        Post post = postRepository.findById(current.getPostId()).get();
+        post.setTitle(current.getTitle());
+        post.setContent(current.getContent());
         return postRepository.save(post);
     }
 }
