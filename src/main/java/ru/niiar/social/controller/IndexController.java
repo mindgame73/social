@@ -34,6 +34,7 @@ public class IndexController {
 
     @GetMapping("")
     public String getIndex(Model model, Principal principal){
+
         List<Post> postList = (List<Post>) postRepository.findAllByOrderByPostTimeDesc();
         model.addAttribute("posts", postList);
 
