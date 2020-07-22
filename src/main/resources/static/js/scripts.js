@@ -11,10 +11,13 @@ $(document).on('click','.ajax-post-edit', function () {
         url: "/post/edit",
         data: "id=" + id,
         success: function (post) {
+            console.log(post)
             $('.edit-post')[0].reset();
-            $('#e_post_id').val(post.post_id)
+            $('#e_post_id').val(post.postId)
             $('#e_title').val(post.title);
             $('#e_content').val(post.content);
+            $('#e_post_time').val(post.postTime);
+
         }
     });
     $('#edit-modal-post').modal();
@@ -41,10 +44,11 @@ $('#btn-create-post').click(function () {
 
 $('#btn-edit-post').click(function () {
     var data = {};
-    data['post_id'] = $('#e_post_id').val();
+    data['postId'] = $('#e_post_id').val();
     data['title'] = $('#e_title').val();
     data['content'] = $('#e_content').val();
-
+    data['postTime'] = $('#e_post_time').val();
+    console.log(data)
     $.ajax({
         type: "POST",
         contentType: "application/json",
